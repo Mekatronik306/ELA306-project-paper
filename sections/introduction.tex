@@ -1,0 +1,205 @@
+\section{Introduction}
+\label{section:intro}
+
+This report will first cover some electric vehicle configurations and then the modeling and simulation of a regenerative active suspension system (RASS). This project builds on previous research and heavily follows the work which has already been done by these studies\:\cite{azmiNovelOptimalControl2023} \cite{liuTransmissionEnergyharvestingStudy2021}\cite{liuModelingSimulationEnergyRegenerative2019}\cite{zhengNovelEnergyregenerativeActive2008}\cite{yinPerformanceEvaluationActive2015}\cite{okadaEnergyRegenerativeActive2007}\cite{liuModellingExperimentalStudy2016}. 
+
+The combination of active suspension and regenerative suspension allows for maintaining the ride comfort and improving suspension performance while at the same time alleviating the major drawback of active suspension which is the energy consumption\:\cite{azmiNovelOptimalControl2023}\cite{liuTransmissionEnergyharvestingStudy2021}\cite{yinPerformanceEvaluationActive2015}. This is especially relevant for in wheel power train configurations (which the MDH solar car uses) to compensate for negative impact on the suspension system because of the increased unsprung mass\:\cite{yinPerformanceEvaluationActive2015}.
+
+%---------------------------------------------------------------------------------------------------
+% Introduktion (ca 1 sida)
+%     Ge en översikt över den nuvarande situationen för elektriska fordon (EV) inom industrin, inklusive de vanligaste konfigurationerna.
+%     Presentera Mälardalens Högskola (MDH) solbil, inklusive dess konfiguration och hur den skiljer sig från andra EVs.
+%     Diskutera designaspekter relaterade till funktionalitet och egenskaper hos drivlinan i MDH:s solbil och andra liknande EVs.
+
+%======================
+% Introduction
+%======================
+
+%+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+% Overview
+
+% Types
+Electronic vehicles (EV) can be divided into categories depending on their power source, including: battery-powered electric vehicles (BEV), solely hybrid electric vehicles (HEV), plug-in hybrid electric vehicles (PHEV), photovoltaic electric vehicles (PEV) and Fuel-Cell Electric Vehicles (FCEV)\:\cite{hannanStateoftheArtEnergyManagement2018}\cite{khajepourElectricHybridVehicles2014}\cite{un-noorComprehensiveStudyKey2017}.
+This paper is related to the MDH solar car which is a BEV and will thus focus on BEV.
+Previously EV could be constructed by simply converting a non EV\:\cite{chauEVPowertrainConfigurations2014}. Modern EV are however designed from scratch to better utilize the design opportunities and flexibility offered by EV\:\cite{chauEVPowertrainConfigurations2014}\cite{othaganontMultiobjectiveOptimisationBattery2017}.
+
+% Battery
+lithium-ion (Li-ion) batteries are the most commonly used batteries in BEV\:\cite{hannanStateoftheArtEnergyManagement2018}\cite{un-noorComprehensiveStudyKey2017}\cite{chauEVPowertrainConfigurations2014}\cite{kumarDevelopmentSchemeKey2017}\cite{tahaComparativeAnalysisSingle2022}\cite{zubiLithiumionBatteryState2018}. Because of their good performance and characteristics, they are considered the best choice for EV\:\cite{hannanStateoftheArtEnergyManagement2018}. Li-ion batteries main advantages for use in BEV are their high energy density, long life, high reliability, relatively fast recharge rate and that they are lightweight\:\cite{hannanStateoftheArtEnergyManagement2018}\cite{kumarDevelopmentSchemeKey2017}\cite{zubiLithiumionBatteryState2018}. One type of lithium-ion batteries that are in high demand for BEV applications are Lithium Nickel Manganese Cobalt Oxide (LiNiMnCoO2), or NMC, batteries\:\cite{hannanStateoftheArtEnergyManagement2018}\cite{zubiLithiumionBatteryState2018}. It is common for BEV to run with multiple battery cells (90 or more) that form a battery pack rather than using one large capacity battery\:\cite{hannanStateoftheArtEnergyManagement2018}. BEVs generally have a battery management system (BMS) which monitors the battery cells, monitors input and output currents/voltages, controls charging and discharging, provides battery protection, handles communication and fault handling and more\:\cite{hannanStateoftheArtEnergyManagement2018}\cite{zubiLithiumionBatteryState2018}. All of this is necessary for the BEV to function correctly but it also helps to improve performance\:\cite{hannanStateoftheArtEnergyManagement2018}\cite{zubiLithiumionBatteryState2018}.
+See\:\cite{zubiLithiumionBatteryState2018} for a complete overview and characteristics of different batteries in EV applications.
+
+% Power electronics
+BEV require power electronic converters (DC-DC, AC-AC, DC-AC and AC-DC) to convert power, for example convert source power from batteries in order to supply it to the motor or to supply power to all auxiliary systems in the vehicle\:\cite{khajepourElectricHybridVehicles2014}\cite{un-noorComprehensiveStudyKey2017}.
+
+% Electric motor
+The Permanent Magnet Brushless Direct Current (PMBLDC) motor is the dominant choice for smaller EV (scooters etc) because of its good reliability, low maintenance, high power density and compact size\:\cite{kumarDevelopmentSchemeKey2017}. See\:\cite{kumarDevelopmentSchemeKey2017} for characteristics and comparison between different electric motors used in smaller EV.
+The main electric motors used in passenger car EV are AC motors, typically synchronous and induction motors\:\cite{khajepourElectricHybridVehicles2014}\cite{un-noorComprehensiveStudyKey2017}\cite{othaganontMultiobjectiveOptimisationBattery2017}\cite{carlenerikssonElektriskOchHybriddrivlina2023}.
+Electric motors can function as generators to produce electric power when braking and traveling downhill, known as regenerative braking, this can be used to charge the batteries or other energy sources\:\cite{khajepourElectricHybridVehicles2014}\cite{un-noorComprehensiveStudyKey2017}.
+Motors can be arranged as in-wheel motors or out-wheel motors, or a combination of both\:\cite{khajepourElectricHybridVehicles2014}\cite{carlenerikssonElektriskOchHybriddrivlina2023}. When in-wheel motor configuration is used, the motors are mounted and located inside the driving wheels\:\cite{khajepourElectricHybridVehicles2014}\cite{othaganontMultiobjectiveOptimisationBattery2017}\cite{carlenerikssonElektriskOchHybriddrivlina2023}. The motors then provide the traction forces without the need for any mechanical components or gearing, resulting in a simple and transmission efficient system\:\cite{khajepourElectricHybridVehicles2014}\cite{un-noorComprehensiveStudyKey2017}\cite{chauEVPowertrainConfigurations2014}\cite{othaganontMultiobjectiveOptimisationBattery2017}\cite{carlenerikssonElektriskOchHybriddrivlina2023}. In out-wheel motor configuration, the motors are located in the chassis and provide the traction force to the driving wheels through transmission systems, gear units and differentials\:\cite{khajepourElectricHybridVehicles2014}\cite{carlenerikssonElektriskOchHybriddrivlina2023}. A number of different out-wheel configurations exist, including\:\cite{khajepourElectricHybridVehicles2014}\cite{un-noorComprehensiveStudyKey2017}\cite{chauEVPowertrainConfigurations2014}\cite{othaganontMultiobjectiveOptimisationBattery2017}\cite{carlenerikssonElektriskOchHybriddrivlina2023}:
+\begin{itemize}
+	\item Out-wheel motor rear/front-wheel drive also known as longitudinal single-motor-geared powertrain, this has a powertrain configuration where the motor is connected to fixed gearing which connects to the differential, all in series
+	\item Out-wheel motor drive can also be arranged in transverse single-motor-geared powertrain configuration where all components (motor, fixed gearing and differential) are integrated into the axle
+	\item Dual/quad out-wheel motor drive (fixed gearing): each front or rear (or both) wheel has its own axle, gearing and motor, thus getting rid of the heavy and complicated differential and providing better performance
+\end{itemize}
+The transverse single-motor-geared powertrain configuration is the most commonly used configuration as it offers higher transmission efficiency and a more compact system\:\cite{chauEVPowertrainConfigurations2014}.
+% Gearing
+Modern EV opt for fixed gearing as it provides smoother driving and better efficiency\:\cite{chauEVPowertrainConfigurations2014}.
+
+% Power management system
+The power/energy management control system (EMS) is in charge of controlling the power in the EV by optimizing the power flow between different components, optimizing the power from the electric motor, reduce energy consumption, reduce emissions and also to maximize the energy recuperation from braking (generator mode)\:\cite{khajepourElectricHybridVehicles2014}\cite{un-noorComprehensiveStudyKey2017}\cite{kumarDevelopmentSchemeKey2017}\cite{tranThoroughStateoftheartAnalysis2020}.
+% POWER != ENERGY
+It should be noted that although energy management system and power management system are often used as synonyms, some argue that this is incorrect and point to the difference between energy (integration of power) and power (instantaneous, that instance of time)\:\cite{khajepourElectricHybridVehicles2014}.
+
+% Overall control
+The electrical modules in electronic vehicles are controlled by the electric control module (ECM) or electric control unit (ECU) which is the main control unit\:\cite{khajepourElectricHybridVehicles2014}. The ECM monitors the overall performance of the vehicle and makes sure the performance is optimal by monitoring temperature, torque, current etc\:\cite{khajepourElectricHybridVehicles2014}. 
+%The BMS and the power management control system are subsystems within the ECM.
+
+% Design
+It is common for EV to use advanced materials (reduce mass) like higher strength steel (safer in case of a crash) to compensate for the higher mass that EV typically have\:\cite{khajepourElectricHybridVehicles2014}.
+%+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+%+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+% MDH solar car
+
+The motors for the MDH solar car are arranged in in-wheel DD (in-wheel motor drive) configuration and are 2x Mitsuba M1096-D3 motors (DC brush-less motors) located in the rear driving wheels\:\cite{mdhsolarteamBillMaterials}. Because an in-wheel configuration is used, it was assumed that no transmission system was used since it is not necessary\:\cite{khajepourElectricHybridVehicles2014}. The motors can be used in generator mode to brake and recuperate energy and recharge the batteries\:\cite{mdhsolarteamBreaksystem}. The braking system consists of two cylinders, one for the two front calipers, the other for the two rear calipers\:\cite{mdhsolarteamBreaksystem}. The parking brake acts on the rear calipers\:\cite{mdhsolarteamBreaksystem}.
+The vehicle uses two microcontrollers, namely 2x Mitsuba Controller M0896C\:\cite{mdhsolarteamBillMaterials}.
+The MDH Solar car uses 420x Wamtechnik/Panasonic NCR18650GA lithium-ion batteries (Lithium Cobalt Oxide (LiCoO2))\:\cite{mdhsolarteamBillMaterials}\cite{panasonicLithiumIonBatteries2007}\cite{A4EnergyStorage2017}. The vehicle uses a BMS for monitoring the batteries and the batteries are arranged in a 30(s)x14(p) (series/parallel) formation\:\cite{mdhsolarteamBillMaterials}\cite{A4EnergyStorage2017}.
+Galvanically isolated DC/DC converters inside the battery pack are used to supply power to a the battery management system\:\cite{mdhsolarteamA2ElectricalSystem2017}.
+The Sunpower E60 Bin Me1, 24.3\% eff., length 125 mm, diameter 160 mm are the solar cells used in the MDH Solar car\:\cite{mdhsolarteamDeclarationRegulation2017}. A total of 260 solar cells are used\:\cite{mdhsolarteamBillMaterials}.
+Maximum power point tracking (MPPT) are used in the car to optimize energy from the solar cells\:\cite{mdhsolarteamBillMaterials}. There are 5(s)x2(p) (series/parallel) Nomura Co Micro Boost MPPT used in the solar car, where each MPPT has 26 solar cells connected in series\:\cite{mdhsolarteamBillMaterials}.
+%+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+%+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+% Drivlina (powertrain)
+% Power source (tank/batteries) -> power electronics (converters) -> Power unit (motor/engine) and controllers for these if used -> transmission system -> driving wheels
+% + any sensors or processors present in this chain
+
+% MDH solar car
+The powertrain of the MDH solar car consists of 420x Wamtechnik/Panasonic NCR18650GA lithium-ion batteries, galvanically isolated DC/DC converters, two in-wheel DC brush-less motors, two microcontrollers and no transmission system (assumed, because of in-wheel configuration)\:\cite{mdhsolarteamBillMaterials}\cite{panasonicLithiumIonBatteries2007}\cite{A4EnergyStorage2017}. This provides a very compact powertrain configuration, however it moves a lot of mass to the unsprung mass (wheels) of the vehicle which is a cause for concern\:\cite{othaganontMultiobjectiveOptimisationBattery2017}.
+% Other vehicles
+The choice of DC brush-less motors in the MDH solar car is different than what is commonly used in EV passenger cars, which is AC motors. However it does offer some important benefits that might justify this choice for the purpose of the MDH solar car, namely racing:
+\begin{itemize}
+	\item DC brush-less motors are well suited and best used for short bursts of high acceleration\:\cite{khajepourElectricHybridVehicles2014}
+	\item AC motors are generally lighter\:\cite{carlenerikssonElektriskOchHybriddrivlina2023} but for racing and high speed, the heavier DC motor might offer better traction.
+	\item The lower cost of DC motors\:\cite{carlenerikssonElektriskOchHybriddrivlina2023} can be an important aspect for the development stage
+\end{itemize}
+The placement of the motors in the rear wheels also makes sense from a racing point of view to increase traction at high speeds at the cost of a more difficult to steer vehicle.
+In-wheel configuration is also different from the more common transverse single-motor-geared powertrain configuration\:\cite{chauEVPowertrainConfigurations2014}. In-wheel has shown numerous advantages like better control, better turning, high transmission efficiency, faster acceleration, more space for batteries and no need for mechanical components\:\cite{un-noorComprehensiveStudyKey2017}\cite{chauEVPowertrainConfigurations2014}\cite{othaganontMultiobjectiveOptimisationBattery2017}, all of which are important for the objective of the MDH solar car and could thus explain the choice. But this configuration is still in the research stage and the downsides of complexity and adding a lot of mass to unsprung mass of the vehicle could explain why this configuration still is not common\:\cite{othaganontMultiobjectiveOptimisationBattery2017}.
+The use of DC/DC converters is naturally different from other EV since AC motors are the preferred motor in EV currently and they use inverters instead of DC/DC converters\:\cite{un-noorComprehensiveStudyKey2017}\cite{chauEVPowertrainConfigurations2014}.
+The use of lithium-ion batteries aligns with the EV industry and is an understandable choice because of their generally superior performance\:\cite{hannanStateoftheArtEnergyManagement2018}.
+
+%+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+
+%---------------------------------------------------------------------------------------------------
+% Problemformulering (ca 1 sida)
+%     Undersök MDH'8s solbil och identifiera 10 behov där förbättringar kan göras genom användning av mekatroniska system. Presentera varje behov med en kort beskrivning om cirka 1-10 ord.
+% Ni får själva välja om dessa 10 behov är något some kommer ha en positive inverkat på solbilens möjligheter att vinna tävlingar. Dvs ni kan exempelvis välja områden some förbättrar komfort, vinterkörning, motverka punktering, mm. Låt er fantasi sätta gränserna! 
+% Solbilen står parkerad i verkstaden ansluten till laborationslokalerna i C2 byggnad 326.
+
+%     Baserat på de identifierade behoven, formulera en hypotes för ett mekatroniskt system some kan adressera minst ett av dessa behov.
+%     Utifrån er hypotes och tidigare bakgrund, definiera produktkrav för ert föreslagna mekatroniska system. Kraven ska tydligt beskriva vad systemet ska kunna uppnå och hur dess framgång kan mätas. Dessa krav kommer att utgöra grunden för simuleringar some ska genomföras senare i projektet(PRO1).
+%     Observera att problemformuleringen och kraven kan vidareutvecklas under projektets gång.
+
+%======================
+% Problem formulation
+%======================
+
+\subsection{Problem formulation}
+
+%+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+% Needs
+The following needs were identified for the MDH solar car:
+\begin{enumerate}
+	\item Reduce stress on batteries: BEV suffer from the downsides of batteries, most of these downsides are further emphasized when there is stress on the batteries, for example capacity\:\cite{khajepourElectricHybridVehicles2014}
+	\item Improve utilization of regenerative braking: batteries can not in all situations fully utilize or store all the energy from regenerative braking\:\cite{khajepourElectricHybridVehicles2014}
+	\item High energy power delivery: to allow for maximum power delivery when necessary, for example when accelerating
+	\item Improve driving range of the vehicle: a common issue for EV\:\cite{khajepourElectricHybridVehicles2014}\cite{othaganontMultiobjectiveOptimisationBattery2017}
+	\item Reduce mass of the vehicle: a common issue for EV\:\cite{khajepourElectricHybridVehicles2014}
+	\item Reduce the need and frequency of maintenance
+	\item Improve control of the vehicle to further minimize the risk of accidents
+	\item Improve safety of the vehicle to further minimize harm to people
+	\item Improve traction performance to reduce slipping and improve acceleration
+	\item Improved suspension system for uneven terrain and high speed
+\end{enumerate}
+
+%+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+% Hypothesis for mechatronic systems to meet the needs
+The following possible improvements were found to address the needs for the MDH solar car:
+\begin{itemize}
+	\item Hybrid energy storage system: use batteries (low power capabilities, high energy density) and ultra capacitors (high power capabilities, low energy density) for reducing the high power stress on the battery and utilize the regenerative braking more effectively with ultra capacitors\:\cite{khajepourElectricHybridVehicles2014}\cite{un-noorComprehensiveStudyKey2017}\cite{kumarDevelopmentSchemeKey2017}\cite{tranThoroughStateoftheartAnalysis2020}. This would provide high energy capacity and high power delivery at the same time, as well as improving the life expectancy for both devices\:\cite{khajepourElectricHybridVehicles2014}\cite{un-noorComprehensiveStudyKey2017}\cite{tranThoroughStateoftheartAnalysis2020}. However, the power management control system becomes more complex and the initial cost increases\:\cite{khajepourElectricHybridVehicles2014}. Note that flywheels could take the place of the ultra capacitors in the hybrid energy storage system\:\cite{khajepourElectricHybridVehicles2014}.
+	\item Regenerative suspension system: Harvests the energy generated from the vibrations in the suspension system\:\cite{khajepourElectricHybridVehicles2014}. Expected to have nominal impact in the use conditions of the MDH solar car since a regenerative suspension system is expected to see its main benefits when driving slowly on very uneven terrain\:\cite{khajepourElectricHybridVehicles2014}, but could improve driving range.
+    \item Active suspension system: an active suspension system would improve suspension during uneven terrain and high speed by altering the suspension characteristics to better keep the tires to the ground\:\cite{khajepourElectricHybridVehicles2014}. It would also improve handling, control and safety of the car\:\cite{khajepourElectricHybridVehicles2014}. However it would come at the cost of increased energy consumption\:\cite{khajepourElectricHybridVehicles2014}.	
+    \item Steer-by-wire (SbW): steer-by-wire removes, or significantly reduces, the mechanical components connecting the steering wheel and the driving wheels for steering the vehicle\:\cite{khajepourElectricHybridVehicles2014}. Instead replacing it with a steering wheel module and then actuators, sensors and controllers close to the driving wheels\:\cite{khajepourElectricHybridVehicles2014}. Steer-by-wire could offer a space reduction, improved steering control\:\cite{khajepourElectricHybridVehicles2014}, a mass reduction and less components needing maintenance.
+	\item Brake-by-wire (BbW): brake-by-wire removes, or significantly reduces, the mechanical and/or hydraulic components, instead having a controller, actuators and sensors close to the brake pads and disc\:\cite{khajepourElectricHybridVehicles2014}. Implementing BbW would help with further space and mass reductions, increased energy-efficient\:\cite{khajepourElectricHybridVehicles2014} as well as reducing complexity. Implementing BbW could also possibly improve maintenance if the actuators are not hydraulic since water can enter the hydraulics making it necessary to change the oil, otherwise risking reduced braking efficiency.
+	\item Anti-lock braking system (ABS), Traction control system (TCS), Electronic brakeforce distribution (EBD) and Electronic stability control (ESC): If any of these are not present in the MDH solar car, then including them should not be to difficult since they roughly share the same hardware\:\cite{khajepourElectricHybridVehicles2014}. Implementation of these systems is further simplified because of in-wheel motor configuration\:\cite{othaganontMultiobjectiveOptimisationBattery2017}. ABS and EBD would improve safety, stability and control of the vehicle when braking\:\cite{khajepourElectricHybridVehicles2014}. ESC would provide the same benefits, safety and control, but they would apply outside of braking as well\:\cite{khajepourElectricHybridVehicles2014}. TCS would improve overall control and traction performance of the vehicle\:\cite{khajepourElectricHybridVehicles2014}.
+\end{itemize}
+
+%+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+% Chosen mechatronic system
+The mechatronic system chosen was regenerative suspension system with active suspension to complement each other.
+The regenerative active suspension system (RASS) used controllers to receive sensor data to control an electromagnetic actuator for regenerative and active suspension depending on the situation and road. This is similar to Azmi \textit{et al.}\:\cite{azmiNovelOptimalControl2023} and Liu \textit{et al.}\:\cite{liuTransmissionEnergyharvestingStudy2021}.
+
+% Krav
+% Förberedelse av specifikation En specifikation av kraven bör förberedas efter analyserna. Den bör ange problemet, de begränsningar som sätts på lösningen och de kriterier som används för att bedöma designens kvalitet. Funktionerna som krävs för designen, tillsammans med eventuella önskvärda egenskaper, bör specificeras. Detta kan göras genom att definiera massa, dimensioner, typer och rörelseomfång som krävs, noggrannhet, in- och utdatakrav för element, gränssnitt, kraftkrav, driftsmiljö, relevanta standarder och praxisregler, etc.
+The following requirements were established for the system:
+\begin{itemize}
+    \item Ride comfort must be maintained: vertical acceleration of the sprung mass must be below $1.5\frac{\text{m}}{\text{s}^2}$\:\cite{liuTransmissionEnergyharvestingStudy2021}.
+    \item Self supplying efficiency: the energy harvested to the energy consumed by the RASS must be over $50\%$\:\cite{liuTransmissionEnergyharvestingStudy2021}.
+    \item Energy efficiency: the energy harvested to the energy input must be over $15\%$\:\cite{liuModelingSimulationEnergyRegenerative2019}.
+    \item Operational environments: the system must work in all normal passenger car driving environments.
+    \item Mass: the system must not have a mass greater than UNKNOWN\footnote{"UNKNOWN" was used when something could not be established or evaluated properly with the resources available for this study, see Discussion\:\ref{section:discussion}.}.
+    \item Dimension: the dimension of the system must not exceed UNKNOWN.
+    \item Cost: the development cost of the system and cost of production of individual units must not exceed UNKNOWN budgets.
+    \item Safety: the safety must not be reduced. The increase in mass must not make the stop distance exceed UNKNOWN meters. System failures must not result in unsafe conditions for the vehicle or driver.
+    \item Standards and regulations: meet all UNKNOWN standards and regulations.
+    \item Ratio between comfort, performance and safety: The system must not exceed UNKNOWN ratio between comfort, performance and safety. For example, increased energy consumption could be allowed if it increased ride comfort and roadholding sufficiently. 
+\end{itemize}
+
+% Performance metrics
+The following metrics were used to evaluate the quality of the design of the system:
+\begin{itemize}
+    \item Vertical acceleration of sprung mass ($\frac{\text{m}}{\text{s}^2}$)
+    \item Energy harvested to the energy consumed by the RASS (\%)
+    \item Energy harvested to the energy input (\%)
+    \item Total mass of the system (kg)
+    \item Dimension of the system
+    \item Total cost of the development of the system and cost of production of individual units
+\end{itemize}
+
+%+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+%---------------------------------------------------------------------------------------------------
+% Bakgrund (ca 1 sida)
+% Utforska och presentera befintliga system inom industrin och forskningen some liknar ert föreslagna mekatroniska system.
+% Fokusera särskilt på designlösningar some har visat sig vara mest effektiva för att adressera liknande problem, och diskutera de krav some dessa system strävar efter att uppfylla.
+
+%======================
+% Background
+%======================
+
+\subsection{Background}
+
+%+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+% Design and systems similar (in the industry and reserach)
+
+%+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+% Similar systems in the industri and research
+
+% Controller
+A controller for a RASS needs to account for nonlinearity in the system as well as managing ride comfort (active suspension) and energy recuperation (regenerative suspension)\:\cite{azmiNovelOptimalControl2023}. An electromagnetic actuator can function as both the active suspension and regenerative suspension\:\cite{azmiNovelOptimalControl2023}. In a study by Azmi \textit{et al.}, a RASS system was designed to not negatively affect the drive comfort yet still be able to harvest energy\:\cite{azmiNovelOptimalControl2023}. Azmi \textit{et al.} achieved this with their nonlinear model rather than a linear-quadratic regulator (LQR) and they concluded that accounting for the nonlinearity of the suspension system drastically increases the amount of energy that can be harvested\:\cite{azmiNovelOptimalControl2023}.
+
+% Electromagnetic generators, skyhook damper
+Long \textit{et al.} investigated the vehicle ride comfort and ability to harvest energy by proposing a regenerative active suspension for in-wheel motor driven electric vehicles\:\cite{longRegenerativeActiveSuspension2020}. The study implemented a mechatronic system consisting of dual electromagnetic actuators for regenerative active suspension based on advanced-dynamic-damper mechanism (ADM). The first actuator was controlled using the skyhook method which aims to improve the vehicle ride comfort, while the second actuator was used to control the shock absorbance and harvest the energy from the vibrations\:\cite{longRegenerativeActiveSuspension2020}. A tubular permanent-magnet actuator (M1) and a voice coil motor (M2) were used to replicate the behavior of a skyhook damper and passive damper\:\cite{longRegenerativeActiveSuspension2020}. The ride comfort increased with 52\% compared to a passive suspension system when the vehicle was driven at 20 m/s. The energy efficiency of the system achieved a higher regenerative ability compared to a fixed threshold system\:\cite{longRegenerativeActiveSuspension2020}.
+
+% Electromagnetic generatos
+Piezoelectric generators, electromagnetic generators and electrostatic generators can be used to harvest the energy from the suspension system and a comparative review was conducted by Tulsian and Dewangan\:\cite{tulsianDiscussionEnergyHarvesting2023}. The paper introduced a study\:\cite{jiaAnalyticalNumericalStudy2018} where the proposed suspension system consisted of permanent magnets. By using the electromagnetic coupling as a damping effect, it was possible to store and convert the energy produced from the vibrations\:\cite{tulsianDiscussionEnergyHarvesting2023}\cite{jiaAnalyticalNumericalStudy2018}. The simulation conducted in the study, suggests that 10-100 kW is the average recoverable power that can be produced by a regular car driving on a paved road and simultaneously keeping the comfort level steady for the passengers\:\cite{tulsianDiscussionEnergyHarvesting2023}\cite{jiaAnalyticalNumericalStudy2018}. The average recoverable power was obtained by simulating a vehicles speed from 1 km/h to 130 km/h and recording the average acceleration and average recoverable power produced by the suspension system when hitting irregularities in the road\:\cite{jiaAnalyticalNumericalStudy2018}.
+
+The specific use of electromagnetic generators is a popular method because of its high energy conversion efficiency, controllability, energy recovery and quick response\:\cite{abdelkareemVibrationEnergyHarvesting2018}. Two types of electromagnetic generators are linear and rotary generators\:\cite{liuTransmissionEnergyharvestingStudy2021}\cite{abdelkareemVibrationEnergyHarvesting2018}. The linear generator has a simpler structure and converts vertical oscillations to energy compared to the rotary generator which converts the linear and vertical vibrations into rotational oscillations of the generator\:\cite{abdelkareemVibrationEnergyHarvesting2018}. The rotary generator is generally more compact and has a higher energy density compared to the linear generator\:\cite{liuTransmissionEnergyharvestingStudy2021}\cite{abdelkareemVibrationEnergyHarvesting2018}. The rotary generator requires a transmission system to convert the linear motion into rotational motion\:\cite{liuTransmissionEnergyharvestingStudy2021}. A number of systems have been suggested for this, including: rack and pinion, swing arm mechanism with upper and lower levers (with planetary gear), ball screw mechanism, twistable triangular algebraic screw mechanism and parallel mechanism\:\cite{liuTransmissionEnergyharvestingStudy2021}.
+
+Some studies\:\cite{azmiNovelOptimalControl2023} has developed systems which managed to harvest more energy from the regenerative suspension than was used by the active suspension, however other studies have failed to achieve this\:\cite{liuTransmissionEnergyharvestingStudy2021}.
+
+%-------------------------------------------------------------------------------------------------------------

@@ -1,0 +1,39 @@
+\section{Discussion}
+\label{section:discussion}
+%-------------------------------------------------------------------------------------------------------------
+
+% Results 
+The modeled mechanical behavior of the system was satisfactory and match other studies, mainly based on sprung mass acceleration\:\cite{liuTransmissionEnergyharvestingStudy2021}, see Fig.\:\ref{fig:vertical_acceleration}. It is seen as satisfactory since the two peaks exceeding $1.5\frac{\text{m}}{\text{s}^2}$ are during harsher conditions than described in other studies\:\cite{liuTransmissionEnergyharvestingStudy2021}.
+However, the energy results obtained were clearly unrealistic when compared to other studies, mainly self supplying efficiency\:\cite{azmiNovelOptimalControl2023}\cite{liuTransmissionEnergyharvestingStudy2021}\cite{liuModelingSimulationEnergyRegenerative2019}, see Fig.\:\ref{fig:self_supplying} and Table.\:\ref{tab:results_energy}.
+One reason for this was the inadequate incorporation of losses and efficiency, only motor efficiency was part of the simulation model.
+Another contributing factor was that the parameters were only poor estimations, a consequence of poor documentation of the MDH solar car, and the results were thus affected by this fault in the model.
+System constrains were also not considered, such as maximum actuator force and maximum displacements.
+The logic used for mode control was very rudimentary as well, substantial optimization could be done, see\:\cite{azmiNovelOptimalControl2023}.
+
+%-------------------------------------------------------------------------------------------------------------
+
+% Limitations
+An additional limitation of this study was that the system did not account for non linear motion and it only made use of linear motion for harvesting energy, as noted in\:\cite{azmiNovelOptimalControl2023}, this significantly reduces the amount of energy which can be harvested.
+The model created assumes linear characteristics, however in reality, the characteristic are non linear, this assumption results in worse performance of the controllers and system response\:\cite{azmiNovelOptimalControl2023}. 
+The model also assumed all wheels had equal mass and were identical, this is not true for the MDH solar car, something which has already been stated.
+
+%-------------------------------------------------------------------------------------------------------------
+
+% Requirements
+Because of the time and resource limitation of this study, most system requirements were unable to be tested, these were marked with "UNKNOWN". However it is imperative that these requirements are tested, all of the requirements established can be tested with proper resources. Hence the reason they were established despite not being able to be tested in this study.
+It should also be noted that most of the system requirements were also unable to be properly established because of the limited resources, like lack of proper documentation, these were also marked with "UNKNOWN".
+The two requirements which could be tested, ride comfort technically failed, and self supplying efficiency passed, however both of these are misleading given the limitations of the study and the faults presented above.
+
+%-------------------------------------------------------------------------------------------------------------
+
+% Advantage of the results related to MDH solar car
+The results obtained, ignoring the unrealistic energy values, indicates a possibly very beneficial system for the MDH solar car. Providing improved suspension characteristics while also reducing the major drawback of active suspension systems. This is especially important given the substantial unsprung mass, because of the in-wheel configuration, and thus the negative effects this has on the suspension system\:\cite{yinPerformanceEvaluationActive2015}, as previously noted in the Introduction\:\ref{section:intro}.
+
+%-------------------------------------------------------------------------------------------------------------
+
+
+%-------------------------------------------------------------------------------------------------------------
+\begin{comment}
+% Hur fördelaktigt kan det resulterande systemet vara för MDH solar car?
+\end{comment}
+%-------------------------------------------------------------------------------------------------------------
